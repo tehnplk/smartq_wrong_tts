@@ -18,15 +18,17 @@ def sync_fname():
     api = f"{API}/fname"
     resp = requests.get(api)
     data = resp.json()
+    db = con_db()
+    cur = db.cursor()
     for mydict in data:
         columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in mydict.keys())
         values = ', '.join("'" + str(x).replace('/', '_') + "'" for x in mydict.values())
         sql = "INSERT IGNORE INTO %s ( %s ) VALUES ( %s );" % ('smartq_fname', columns, values)
-        db = con_db()
-        cur = db.cursor()
-        cur.execute(sql)
-        db.commit()
         print(sql)
+        cur.execute(sql)
+        print(sql)
+    db.commit()
+    db.close()
     print('FNAME OK.....')
 
 
@@ -35,15 +37,16 @@ def sync_lname():
     api = f"{API}/lname"
     resp = requests.get(api)
     data = resp.json()
+    db = con_db()
+    cur = db.cursor()
     for mydict in data:
         columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in mydict.keys())
         values = ', '.join("'" + str(x).replace('/', '_') + "'" for x in mydict.values())
         sql = "INSERT IGNORE INTO %s ( %s ) VALUES ( %s );" % ('smartq_lname', columns, values)
-        db = con_db()
-        cur = db.cursor()
         cur.execute(sql)
-        db.commit()
         print(sql)
+    db.commit()
+    db.close()
     print('LNAME OK...')
 
 
