@@ -24,7 +24,6 @@ def sync_fname():
         columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in mydict.keys())
         values = ', '.join("'" + str(x).replace('/', '_') + "'" for x in mydict.values())
         sql = "INSERT IGNORE INTO %s ( %s ) VALUES ( %s );" % ('smartq_fname', columns, values)
-        print(sql)
         cur.execute(sql)
         print(sql)
     db.commit()
