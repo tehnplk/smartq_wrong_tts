@@ -22,10 +22,15 @@ def sync_fname():
     cur = db.cursor()
     for mydict in data:
         columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in mydict.keys())
+        columns = columns + ",`d_update`"
+
         values = ', '.join("'" + str(x).replace('/', '_') + "'" for x in mydict.values())
+        values = values + ",now()"
+
         sql = "INSERT IGNORE INTO %s ( %s ) VALUES ( %s );" % ('smartq_fname', columns, values)
         cur.execute(sql)
         print(sql)
+
     db.commit()
     db.close()
     print('FNAME OK.....')
@@ -40,10 +45,15 @@ def sync_lname():
     cur = db.cursor()
     for mydict in data:
         columns = ', '.join("`" + str(x).replace('/', '_') + "`" for x in mydict.keys())
+        columns = columns + ",`d_update`"
+
         values = ', '.join("'" + str(x).replace('/', '_') + "'" for x in mydict.values())
+        values = values + ",now()"
+
         sql = "INSERT IGNORE INTO %s ( %s ) VALUES ( %s );" % ('smartq_lname', columns, values)
         cur.execute(sql)
         print(sql)
+
     db.commit()
     db.close()
     print('LNAME OK...')
